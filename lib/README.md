@@ -1,4 +1,4 @@
-# React Library CRA Template
+# JS Utils
 This library contains miscellaneous utilities for JavaScript development.
 
 The functions are not exported as default, so you can import them in one of the following ways:
@@ -23,7 +23,7 @@ Converts a list of items to plain English, separating them by commas if there ar
     - `max` (Number): The maximum number of items to be displayed in the list. If the list is longer than this number, the rest of the items will be replaced with a new item "and x more" with x being the number of items that were removed. `undefined` means no limit. Default is `undefined`.
 
 #### Returns
-`String` - The list in plain English. 
+String - The list in plain English. 
 
 ### isNullOrUndefined
 #### Description
