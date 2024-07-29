@@ -1,6 +1,8 @@
 import { useState } from "react";
 import isCallable from "is-callable";
-import { listInPlainEnglish, isNullOrUndefined, Callable } from "@ptolemy2002/js-utils";
+import { listInPlainEnglish, isNullOrUndefined, Callable, ext_hasNestedProperty, loadExtension } from "@ptolemy2002/js-utils";
+
+loadExtension("hasNestedProperty", ext_hasNestedProperty, Object);
 
 class Func extends Callable {
     offset = 0;
@@ -20,6 +22,9 @@ function App() {
     const [max, setMax] = useState(undefined);
     const [conjunction, setConjunction] = useState('and');
     const [func, setFunc] = useState(null);
+    const [object, setObject] = useState({});
+    const [error, setError] = useState(null);
+    const [prop, setProp] = useState('');
 
     const list = listText.split(',').map(v => v.trim()).filter(v => v.length > 0);
 
@@ -35,6 +40,15 @@ function App() {
 
     function handleConjunctionChange(e) {
         setConjunction(e.target.value);
+    }
+
+    function handleObjectChange(e) {
+        try {
+            setObject(JSON.parse(e.target.value));
+            setError(null);
+        } catch (e) {
+            setError("Invalid JSON");
+        }
     }
 
     const funcTest = func ? func(1, 2) : null;
@@ -80,7 +94,26 @@ function App() {
                 // Specifying the Func instance directly will cause React errors as React will treat it as a setter function.
                 () => setFunc(() => new Func(1))
             }>(Re)create Callable</button> <br />
-            <button onClick={() => setFunc(null)}>Clear Callable</button>
+            <button onClick={() => setFunc(null)}>Clear Callable</button> <br /> <br />
+
+            <h2>hasOwnProperty Test</h2>
+            <div className="d-flex flex-row gap-2 mb-1">
+                <label>Enter a JSON object:</label>
+                <input className="flex-grow-1" type="text" defaultValue="{}" onChange={handleObjectChange} />
+            </div>
+
+            <div className="d-flex flex-row gap-2 mb-1">
+                <label>Enter a property path (separated by dots):</label>
+                <input type="text" value={prop} onChange={e => setProp(e.target.value)} />
+            </div>
+
+            {error && <p className="text-danger">{error}</p>}
+
+            {
+                !error && <p>
+                    hasNestedProperty: {object.hasNestedProperty(prop).toString()}
+                </p>
+            }
       </div>
     );
 }

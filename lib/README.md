@@ -35,6 +35,39 @@ Checks if a value is `null` or `undefined`.
 #### Returns
 `Boolean` - `true` if the value is `null` or `undefined`, `false` otherwise.
 
+### loadExtension
+#### Description
+This function allows you to add a function to the prototype of any object, making it as if the function was part of the standard library. The property will not be added if it already exists, and it will not be iterated over in for loops, `Object.keys()`, or similar.
+
+#### Parameters
+- `name` (String): The name of the function to be added to the prototype. This is the name that will be used to access the function.
+- `func` (Function): The function to be added to the prototype.
+- `base` (Type): The object type to which the function will be added.
+
+#### Returns
+None
+
+## unloadExtension
+#### Description
+This function allows you to remove a function from the prototype of any object, making it as if the function was never part of the standard library.
+
+#### Parameters
+- `name` (String): The name of the function to be removed from the prototype.
+- `base` (Type): The object type from which the function will be removed.
+
+#### Returns
+None
+
+### ext_hasNestedProperty
+#### Description
+An extension function that checks if an object has a property, then that property's value has the next property in the chain, and so on. Since it is an extension function, it assumes `this` is the object to be checked. It is heavily recommended to register this function with the `loadExtension` function.
+
+#### Parameters
+- `prop` (any): The property chain to be checked. If this is a string, it will be assumed that every key has string type. The string will be split by dots to create an array. Arrays are left as they are. If this value has any other type, the function acts exactly as `hasOwnProperty`.
+
+#### Returns
+`Boolean` - `true` if the object contains every property in the chain, `false` otherwise.
+
 ## Classes
 The following classes are available in the library:
 
