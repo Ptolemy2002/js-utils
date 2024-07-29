@@ -35,6 +35,16 @@ Checks if a value is `null` or `undefined`.
 #### Returns
 `Boolean` - `true` if the value is `null` or `undefined`, `false` otherwise.
 
+## Classes
+The following classes are available in the library:
+
+### Callable
+#### Description
+Inheriting from this class allows you to create instances that can be called as functions. When called, the `__call__` method is executed.
+
+#### Methods
+- `__call__(...args)` - The method that is executed when the instance is called as a function.
+
 ## Meta
 This is a React Library Created by Ptolemy2002's [cra-template-react-library](https://www.npmjs.com/package/@ptolemy2002/cra-template-react-library) template in combination with [create-react-app](https://www.npmjs.com/package/create-react-app). It contains methods of building and publishing your library to npm.
 For now, the library makes use of React 18 and does not use TypeScript.
