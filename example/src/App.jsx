@@ -1,8 +1,14 @@
 import { useState } from "react";
 import isCallable from "is-callable";
-import { listInPlainEnglish, isNullOrUndefined, Callable, ext_hasNestedProperty, loadExtension } from "@ptolemy2002/js-utils";
+import {
+    listInPlainEnglish, isNullOrUndefined, Callable, ext_hasOwnNestedProperty, ext_getAllProperties, ext_hasProperty_factory,
+    ext_hasNestedProperty_factory, loadExtension
+} from "@ptolemy2002/js-utils";
 
-loadExtension("hasNestedProperty", ext_hasNestedProperty, Object);
+loadExtension("hasOwnNestedProperty", ext_hasOwnNestedProperty, Object);
+loadExtension("getAllProperties", ext_getAllProperties, Object);
+loadExtension("hasProperty", ext_hasProperty_factory("getAllProperties"), Object);
+loadExtension("hasNestedProperty", ext_hasNestedProperty_factory("hasProperty"), Object);
 
 class Func extends Callable {
     offset = 0;
@@ -111,7 +117,10 @@ function App() {
 
             {
                 !error && <p>
-                    hasNestedProperty: {object.hasNestedProperty(prop).toString()}
+                    hasOwnNestedProperty: {object.hasOwnNestedProperty(prop).toString()} <br />
+                    hasProperty: {object.hasProperty(prop).toString()} <br />
+                    hasNestedProperty: {object.hasNestedProperty(prop).toString()} <br />
+                    allProperties: {object.getAllProperties().join(", ")}
                 </p>
             }
       </div>

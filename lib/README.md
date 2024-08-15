@@ -58,15 +58,45 @@ This function allows you to remove a function from the prototype of any object, 
 #### Returns
 None
 
-### ext_hasNestedProperty
+### ext_hasOwnNestedProperty
 #### Description
-An extension function that checks if an object has a property, then that property's value has the next property in the chain, and so on. Since it is an extension function, it assumes `this` is the object to be checked. It is heavily recommended to register this function with the `loadExtension` function.
+An extension function that checks if an object has a property, then that property's value has the next property in the chain, and so on. Note that this extension function uses `hasOwnProperty`, so doesn't work with inherited properties. Since it is an extension function, it assumes `this` is the object to be checked. It is heavily recommended to register this function with the `loadExtension` function.
 
 #### Parameters
 - `prop` (any): The property chain to be checked. If this is a string, it will be assumed that every key has string type. The string will be split by dots to create an array. Arrays are left as they are. If this value has any other type, the function acts exactly as `hasOwnProperty`.
 
 #### Returns
 `Boolean` - `true` if the object contains every property in the chain, `false` otherwise.
+
+### ext_getAllProperties
+#### Description
+An extension function that returns all properties of an object, including inherited properties. This is accomplished by following the prototype chain. Since it is an extension function, it assumes `this` is the object to be checked. It is heavily recommended to register this function with the `loadExtension` function.
+
+#### Parameters
+None
+
+#### Returns
+`Array` - An array of all property names of the object.
+
+### ext_hasProperty_factory
+#### Description
+A factory function that creates an extension function that checks if an object has a property. The reason this is a factory instead of an extension function directly is because it depends on the `ext_getAllProperties` function, thus must be passed that function's name to reference it correctly. It is heavily recommended to register this function with the `loadExtension` function.
+
+#### Parameters
+- `allPropertiesName` (String): The name of the `ext_getAllProperties` function on the prototype this extension function is being added to.
+
+#### Returns
+`Function` - The extension function that checks if an object has a property. It takes one parameter, `prop`, which is the property to be checked.
+
+### ext_hasNestedProperty_factory
+#### Description
+A factory function that creates an extension function that checks if an object has a property, then that property's value has the next property in the chain, and so on. Unlike `ext_hasOwnNestedProperty`, this also works on inherited properties. The reason this is a factory instead of an extension function directly is because it depends on the `ext_hasProperty` function, thus must be passed that function's name to reference it correctly. It is heavily recommended to register this function with the `loadExtension` function.
+
+#### Parameters
+- `hasPropertyName` (String): The name of the `ext_hasOwnNestedProperty` function on the prototype this extension function is being added to.
+
+#### Returns
+`Function` - The extension function that checks if an object has a property, then that property's value has the next property in the chain, and so on. It takes one parameter, `prop`, which is the property chain to be checked. If this is a string, it will be assumed that every key has string type. The string will be split by dots to create an array. Arrays are left as they are. If this value has any other type, the function acts exactly as `hasProperty`.
 
 ## Classes
 The following classes are available in the library:
