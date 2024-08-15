@@ -1,14 +1,14 @@
 import { useState } from "react";
 import isCallable from "is-callable";
 import {
-    listInPlainEnglish, isNullOrUndefined, Callable, ext_hasOwnNestedProperty, ext_getAllProperties, ext_hasProperty_factory,
-    ext_hasNestedProperty_factory, loadExtension
+    listInPlainEnglish, isNullOrUndefined, Callable, ext_hasOwnNestedProperty, ext_getAllProperties, ext_hasProperty,
+    ext_hasNestedProperty, loadExtension
 } from "@ptolemy2002/js-utils";
 
 loadExtension("hasOwnNestedProperty", ext_hasOwnNestedProperty, Object);
 loadExtension("getAllProperties", ext_getAllProperties, Object);
-loadExtension("hasProperty", ext_hasProperty_factory("getAllProperties"), Object);
-loadExtension("hasNestedProperty", ext_hasNestedProperty_factory("hasProperty"), Object);
+loadExtension("hasProperty", ext_hasProperty, Object);
+loadExtension("hasNestedProperty", ext_hasNestedProperty, Object);
 
 class Func extends Callable {
     offset = 0;
