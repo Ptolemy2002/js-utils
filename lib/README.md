@@ -31,7 +31,7 @@ Checks if a value is `null` or `undefined`.
 
 ### dateDifference
 #### Description
-Calculates the difference in milliseconds between two dates. If either date is a falsy value, it will be treated as `0`.
+Calculates the difference in milliseconds between two dates. If either date is a falsy value, it will be treated as `0`. If either date is a number, it will be treated as a Unix timestamp.
 
 #### Parameters
 - `a` (Date): The first date.
