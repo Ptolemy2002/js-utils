@@ -2,7 +2,7 @@ import { useState } from "react";
 import isCallable from "is-callable";
 import {
     listInPlainEnglish, isNullOrUndefined, Callable, ext_hasOwnNestedProperty, ext_getAllProperties, ext_hasProperty,
-    ext_hasNestedProperty, loadExtension
+    ext_hasNestedProperty, loadExtension, dateDifference
 } from "@ptolemy2002/js-utils";
 
 loadExtension("hasOwnNestedProperty", ext_hasOwnNestedProperty, Object);
@@ -31,6 +31,7 @@ function App() {
     const [object, setObject] = useState({});
     const [error, setError] = useState(null);
     const [prop, setProp] = useState('');
+    const now = new Date();
 
     const list = listText.split(',').map(v => v.trim()).filter(v => v.length > 0);
 
@@ -123,6 +124,11 @@ function App() {
                     allProperties: {object.getAllProperties().join(", ")}
                 </p>
             }
+
+            <h2>Date Difference Test</h2>
+            <p>
+                Time since 2000: {dateDifference(now, new Date(2000, 0, 1))} ms
+            </p>
       </div>
     );
 }

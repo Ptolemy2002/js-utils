@@ -29,6 +29,17 @@ String - The list in plain English.
 #### Description
 Checks if a value is `null` or `undefined`.
 
+### dateDifference
+#### Description
+Calculates the difference in milliseconds between two dates. If either date is a falsy value, it will be treated as `0`.
+
+#### Parameters
+- `a` (Date): The first date.
+- `b` (Date): The second date.
+
+#### Returns
+`Number` - The difference in milliseconds between the two dates.
+
 #### Parameters
 - `value` (Any): The value to be checked.
 
