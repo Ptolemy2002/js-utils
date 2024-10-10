@@ -1,5 +1,5 @@
-type Prop = string | PropertyKey[];
-type HasPropCallback = (o: Object, p: PropertyKey) => boolean;
+export type Prop = string | PropertyKey[];
+export type HasPropCallback = (o: Object, p: PropertyKey) => boolean;
 
 export function hasNestedProperty(
     self: Object,
@@ -61,8 +61,8 @@ export function ext_hasNestedProperty(this: Object, prop: Prop): boolean {
     return hasNestedProperty(this, prop, (o, p) => hasProperty(o, p));
 }
 
-type ExtensionFunction = (this: Object, ...args: any[]) => any;
-type ObjectWithPrototype = Object & {prototype: Object};
+export type ExtensionFunction = (this: Object, ...args: any[]) => any;
+export type ObjectWithPrototype = Object & {prototype: Object};
 export function loadExtension(
     name: string,
     func: ExtensionFunction,

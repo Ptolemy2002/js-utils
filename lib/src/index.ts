@@ -1,4 +1,4 @@
-type ListInPlainEnglishOptions = {
+export type ListInPlainEnglishOptions = {
     max?: number;
     conjunction?: string;
 };
