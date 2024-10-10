@@ -1,12 +1,12 @@
 import { useState } from "react";
 import isCallable from "is-callable";
 import {
-    listInPlainEnglish, isNullOrUndefined, Callable, ext_hasOwnNestedProperty, ext_getAllProperties, ext_hasProperty,
-    ext_hasNestedProperty, loadExtension, dateDifference
+    listInPlainEnglish, isNullOrUndefined, Callable, ext_hasOwnNestedProperty, ext_getAllPropertyNames, ext_hasProperty,
+    ext_hasNestedProperty, loadExtension
 } from "@ptolemy2002/js-utils";
 
 loadExtension("hasOwnNestedProperty", ext_hasOwnNestedProperty, Object);
-loadExtension("getAllProperties", ext_getAllProperties, Object);
+loadExtension("getAllPropertyNames", ext_getAllPropertyNames, Object);
 loadExtension("hasProperty", ext_hasProperty, Object);
 loadExtension("hasNestedProperty", ext_hasNestedProperty, Object);
 
@@ -31,7 +31,6 @@ function App() {
     const [object, setObject] = useState({});
     const [error, setError] = useState(null);
     const [prop, setProp] = useState('');
-    const now = new Date();
 
     const list = listText.split(',').map(v => v.trim()).filter(v => v.length > 0);
 
@@ -121,14 +120,9 @@ function App() {
                     hasOwnNestedProperty: {object.hasOwnNestedProperty(prop).toString()} <br />
                     hasProperty: {object.hasProperty(prop).toString()} <br />
                     hasNestedProperty: {object.hasNestedProperty(prop).toString()} <br />
-                    allProperties: {object.getAllProperties().join(", ")}
+                    allPropertyNames: {object.getAllPropertyNames().join(", ")}
                 </p>
             }
-
-            <h2>Date Difference Test</h2>
-            <p>
-                Time since 2000: {dateDifference(now, new Date(2000, 0, 1))} ms
-            </p>
       </div>
     );
 }

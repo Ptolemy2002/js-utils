@@ -1,15 +1,17 @@
-export function listInPlainEnglish(list, {max = undefined, conjunction = "and"}={}) {
+type ListInPlainEnglishOptions = {
+    max?: number;
+    conjunction?: string;
+};
+
+export function listInPlainEnglish(
+    list: string[],
+    {max, conjunction = "and"}: ListInPlainEnglishOptions={}
+): string {
     if (max === undefined) max = list.length;
 
-    if (list.length === 0) {
-        return '';
-    }
-    if (list.length === 1) {
-        return list[0];
-    }
-    if (list.length === 2) {
-        return `${list[0]} ${conjunction} ${list[1]}`;
-    }
+    if (list.length === 0) return '';
+    if (list.length === 1) return list[0];
+    if (list.length === 2) return `${list[0]} ${conjunction} ${list[1]}`;
 
     list = list.map((v, i) => {
         if (i === list.length - 1) return v;
@@ -30,20 +32,14 @@ export function listInPlainEnglish(list, {max = undefined, conjunction = "and"}=
     }
 }
 
-export function dateDifference(a, b) {
-    if (!a) a = 0;
-    if (!b) b = 0;
-    if (a instanceof Date) a = a.getTime();
-    if (b instanceof Date) b = b.getTime();
-    return Math.abs(a-b);
-}
-
-export function isNullOrUndefined(v) {
+export function isNullOrUndefined(v: any): boolean {
     return v === null || v === undefined;
 }
 
 // This class allows defining a class that can be called like a function.
-export class Callable extends Function {
+export class Callable<Type = void, Args extends any[] = any[]> extends Function {
+    __self__: Callable<Type, Args>;
+
     constructor() {
         super('...args', 'return this.__self__.__call__(...args)');
         let self = this.bind(this);
@@ -52,7 +48,7 @@ export class Callable extends Function {
     }
 
     // This should be overridden by the subclass
-    __call__() {}
+    __call__(..._: Args): Type { return; }
 }
 
-export * from 'src/extensions.js';
+export * from './extensions';
