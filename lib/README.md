@@ -17,7 +17,7 @@ type ListInPlainEnglishOptions = {
 };
 type Prop = string | PropertyKey[];
 type HasPropCallback = (o: Object, p: PropertyKey) => boolean;
-type ExtensionFunction = (this: Object, ...args: any[]) => any;
+type ExtensionFunction = <T>(this: T, ...args: any[]) => any;
 type ObjectWithPrototype = Object & {prototype: Object};
 ```
 
@@ -121,7 +121,7 @@ Checks if an object has a property, including inherited properties.
 - `prop` (`PropertyKey`): The property to be checked.
 
 #### Returns
-`boolean` - `true` if the property exists, `false` otherwise.
+`boolean` - `true` if the property exists, `false` otherwise. This is a custom Typescript assertion, so it will recognize the property as existing in the object after the function call.
 
 ### ext_hasProperty
 #### Description

@@ -43,7 +43,7 @@ export function ext_getAllPropertyNames(this: any): string[] {
     return getAllPropertyNames(this);
 }
 
-export function hasProperty(self: Object, prop: PropertyKey): boolean {
+export function hasProperty<T>(self: T, prop: PropertyKey): prop is keyof T {
     let curr = self;
 
     do{
@@ -53,7 +53,7 @@ export function hasProperty(self: Object, prop: PropertyKey): boolean {
     return false;
 }
 
-export function ext_hasProperty(this: Object, prop: PropertyKey): boolean {
+export function ext_hasProperty<T>(this: T, prop: PropertyKey): prop is keyof T {
     return hasProperty(this, prop);
 }
 
@@ -61,7 +61,7 @@ export function ext_hasNestedProperty(this: Object, prop: Prop): boolean {
     return hasNestedProperty(this, prop, (o, p) => hasProperty(o, p));
 }
 
-export type ExtensionFunction = (this: Object, ...args: any[]) => any;
+export type ExtensionFunction = <T>(this: T, ...args: any[]) => any;
 export type ObjectWithPrototype = Object & {prototype: Object};
 export function loadExtension(
     name: string,
