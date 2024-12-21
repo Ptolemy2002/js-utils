@@ -47,6 +47,19 @@ Checks if a value is `null` or `undefined`.
 #### Returns
 `boolean` - `true` if the value is `null` or `undefined`, `false` otherwise.
 
+### stripWords
+#### Description
+Separate a string into words, then remove the specified amount of words from the beginning and end of the list. Rejoin with the same separator and return the resulting string.
+
+#### Parameters
+- `text` (`string`): The string to be stripped.
+- `separator` (`string`): The separator used to split the string into words.
+- `start` (`number`): The number of words to be removed from the beginning of the list.
+- `end` (`number`): The number of words to be removed from the end of the list.
+
+#### Returns
+`string` - The stripped string.
+
 ### loadExtension
 #### Description
 This function allows you to add a function to the prototype of any object, making it as if the function was part of the standard library. The property will not be added if it already exists, and it will not be iterated over in for loops, `Object.keys()`, or similar.

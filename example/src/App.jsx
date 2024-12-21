@@ -2,7 +2,7 @@ import { useState } from "react";
 import isCallable from "is-callable";
 import {
     listInPlainEnglish, isNullOrUndefined, Callable, ext_hasOwnNestedProperty, ext_getAllPropertyNames, ext_hasProperty,
-    ext_hasNestedProperty, loadExtension
+    ext_hasNestedProperty, loadExtension, stripWords
 } from "@ptolemy2002/js-utils";
 
 loadExtension("hasOwnNestedProperty", ext_hasOwnNestedProperty, Object);
@@ -87,6 +87,15 @@ function App() {
                 isNullOrUndefined(''): {isNullOrUndefined('').toString()} <br />
                 isNullOrUndefined([]): {isNullOrUndefined([]).toString()} <br />
                 isNullOrUndefined({"{}"}): {isNullOrUndefined({}).toString()}
+            </p>
+
+            <h2>Strip Words Test</h2>
+            <p>
+                {
+                    list.length > 2 ?
+                        stripWords(listText, ",", 1, 1)
+                    : "List must have at least 3 items"
+                }
             </p>
 
             <h2>Callable Test</h2>

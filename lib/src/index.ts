@@ -51,4 +51,9 @@ export class Callable<Type = void, Args extends any[] = any[]> extends Function 
     __call__(..._: Args): Type { return; }
 }
 
+export function stripWords(text: string, separator: string, start: number, end: number=0): string {
+    const words = text.split(separator);
+    return words.slice(start, -end).join(separator);
+}
+
 export * from './extensions';
