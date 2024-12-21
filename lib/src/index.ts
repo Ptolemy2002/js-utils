@@ -51,10 +51,10 @@ export class Callable<Type = void, Args extends any[] = any[]> extends Function 
     __call__(..._: Args): Type { return; }
 }
 
-export function stripWords(text: string, separator: string, start: number, end: number | null=null): string {
+export function stripWords(text: string, separator: string, start: number, end: number): string {
     const words = text.split(separator);
     return words.slice(
-        start, end === null ? words.length : -end
+        start, end === null ? words.length : words.length - end
     ).join(separator);
 }
 
