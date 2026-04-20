@@ -33,6 +33,7 @@ Converts a list of items to plain English, separating them by commas if there ar
 - `args` (`ListInPlainEnglishOptions`): Used to specifiy optional arguments
     - `conjunction` (`string`): The conjunction to be used in the list. Default is 'and'.
     - `max` (`number`): The maximum number of items to be displayed in the list. If the list is longer than this number, the rest of the items will be replaced with a new item "and x more" with x being the number of items that were removed. `undefined` means no limit. Default is `undefined`.
+    - `oxford` (`boolean`): This setting allows you to disable the final use of the conjunction. If this is set to `true`, the conjunction will be used before the last item even if there are more than two items. If this is set to `false`, the conjunction will not be used if there are more than two items. Default is `true`.
 
 #### Returns
 `string` - The list in plain English. 

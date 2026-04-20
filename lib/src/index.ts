@@ -1,11 +1,13 @@
 export type ListInPlainEnglishOptions = {
     max?: number;
     conjunction?: string;
+    // This setting allows you to disable the final use of the conjunction
+    oxford?: boolean;
 };
 
 export function listInPlainEnglish(
     list: string[],
-    {max, conjunction = "and"}: ListInPlainEnglishOptions={}
+    {max, conjunction = "and", oxford=true}: ListInPlainEnglishOptions={}
 ): string {
     if (max === undefined) max = list.length;
 
@@ -26,9 +28,11 @@ export function listInPlainEnglish(
     })
 
     if (list.length > max) {
-        return `${list.slice(0, max).join('')}${conjunction} ${list.length - max} more`;
+        if (oxford) return `${list.slice(0, max).join('')}${conjunction} ${list.length - max} more`;
+        return `${list.slice(0, max).join('')} ${list.length - max} more`;
     } else {
-        return `${list.slice(0, -1).join('')}${conjunction} ${list[list.length - 1]}`;
+        if (oxford) return `${list.slice(0, -1).join('')}${conjunction} ${list[list.length - 1]}`;
+        return `${list.slice(0, -1).join('')} ${list[list.length - 1]}`;
     }
 }
 
