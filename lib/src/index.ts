@@ -29,10 +29,10 @@ export function listInPlainEnglish(
 
     if (list.length > max) {
         if (oxford) return `${list.slice(0, max).join('')}${conjunction} ${list.length - max} more`;
-        return `${list.slice(0, max).join('')} ${list.length - max} more`;
+        return `${list.slice(0, max).join('')}${list.length - max} more`;
     } else {
         if (oxford) return `${list.slice(0, -1).join('')}${conjunction} ${list[list.length - 1]}`;
-        return `${list.slice(0, -1).join('')} ${list[list.length - 1]}`;
+        return `${list.slice(0, -1).join('')}${list[list.length - 1]}`;
     }
 }
 
