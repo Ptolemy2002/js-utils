@@ -1,10 +1,12 @@
 export type Prop = string | PropertyKey[];
 export type HasPropCallback = (o: Object, p: PropertyKey) => boolean;
 
+const FORBIDDEN_KEYS = new Set<PropertyKey>(["__proto__", "constructor", "prototype"]);
+
 export function hasNestedProperty(
     self: Object,
     prop: Prop = "",
-    hasPropCallback: HasPropCallback = (o, p) => o.hasOwnProperty(p)
+    hasPropCallback: HasPropCallback = (o, p) => Object.prototype.hasOwnProperty.call(o, p)
 ): boolean {
     if (typeof prop === "string") prop = prop.split(".");
     if (!Array.isArray(prop)) return hasPropCallback(self, prop);
@@ -47,7 +49,7 @@ export function hasProperty<T>(self: T, prop: PropertyKey): prop is keyof T {
     let curr = self;
 
     do{
-        if (curr.hasOwnProperty(prop)) return true;
+        if (Object.prototype.hasOwnProperty.call(curr, prop)) return true;
     } while(curr = Object.getPrototypeOf(curr));
 
     return false;
@@ -68,6 +70,10 @@ export function loadExtension(
     func: ExtensionFunction,
     base: ObjectWithPrototype = Object
 ): void {
+    if (FORBIDDEN_KEYS.has(name)) return;
+    if (typeof func !== "function") {
+        throw new TypeError("loadExtension: func must be a function");
+    }
     if (hasProperty(base.prototype, name)) return;
 
     // eslint-disable-next-line no-extend-native
@@ -80,6 +86,7 @@ export function loadExtension(
 }
 
 export function unloadExtension(name: string, base: ObjectWithPrototype = Object): void {
+    if (FORBIDDEN_KEYS.has(name)) return;
     // eslint-disable-next-line no-extend-native
     delete base.prototype[name];
 }

@@ -65,9 +65,11 @@ Separate a string into words, then remove the specified amount of words from the
 #### Description
 This function allows you to add a function to the prototype of any object, making it as if the function was part of the standard library. The property will not be added if it already exists, and it will not be iterated over in for loops, `Object.keys()`, or similar.
 
+As a protection against prototype pollution, the names `__proto__`, `constructor`, and `prototype` are rejected (the function silently does nothing). Note that `name` is still used directly as a property key on the prototype, so it should always be a trusted, developer-controlled string - never user input.
+
 #### Parameters
-- `name` (`string`): The name of the function to be added to the prototype. This is the name that will be used to access the function.
-- `func` (`ExtensionFunction`): The function to be added to the prototype.
+- `name` (`string`): The name of the function to be added to the prototype. This is the name that will be used to access the function. Must not be `__proto__`, `constructor`, or `prototype`, as these are ignored for security reasons.
+- `func` (`ExtensionFunction`): The function to be added to the prototype. If this is not a function, a `TypeError` is thrown.
 - `base` (`ObjectWithPrototype`): The object type to which the function will be added.
 
 #### Returns
@@ -77,8 +79,10 @@ None
 #### Description
 This function allows you to remove a function from the prototype of any object, making it as if the function was never part of the standard library.
 
+As a protection against prototype pollution, the names `__proto__`, `constructor`, and `prototype` are rejected (the function silently does nothing).
+
 #### Parameters
-- `name` (`string`): The name of the function to be removed from the prototype.
+- `name` (`string`): The name of the function to be removed from the prototype. Must not be `__proto__`, `constructor`, or `prototype`, as these are ignored for security reasons.
 - `base` (`ObjectWithPrototype`): The object type from which the function will be removed.
 
 #### Returns
@@ -91,7 +95,7 @@ Checks if an object has a property, then that property's value has the next prop
 #### Parameters
 - `self` (`Object`): The object to be checked.
 - `prop` (`Prop`): The property chain to be checked. If this is a string, it will be assumed that every key has string type. The string will be split by dots to create an array. Arrays are left as they are. If this value has any other type, the function acts exactly as the `hasPropCallback` function.
-- `hasPropCallback` (`HasPropCallback`): A function that checks if a property exists in an object. This is mostly used by the extension functions internally, and the default value is `(o, p) => o.hasOwnProperty(p)`.
+- `hasPropCallback` (`HasPropCallback`): A function that checks if a property exists in an object. This is mostly used by the extension functions internally, and the default value is `(o, p) => Object.prototype.hasOwnProperty.call(o, p)`, which also works with objects that have no prototype (such as those created with `Object.create(null)`).
 
 #### Returns
 `boolean` - `true` if the property chain exists, `false` otherwise.
@@ -166,6 +170,9 @@ Inheriting from this class allows you to create instances that can be called as 
 
 #### Methods
 - `__call__(...args: Args): Type` - The method that is executed when the instance is called as a function.
+
+## Security
+`loadExtension` and `unloadExtension` intentionally modify prototypes - that is their purpose. To prevent prototype pollution (CWE-1321), both functions silently ignore the property names `__proto__`, `constructor`, and `prototype`, and `loadExtension` throws a `TypeError` if `func` is not a function. However, any other name will still be defined on the target prototype, so never pass untrusted input (such as user-provided strings) as the `name` argument.
 
 ## Peer Dependencies
 This project does not have any peer dependencies, so it should work out of the box.
